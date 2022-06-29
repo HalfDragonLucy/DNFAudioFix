@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNFAudioFix", "DNFAudioFix.csproj", "{7654D686-9450-4D15-820B-C5FE803E8D9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7654D686-9450-4D15-820B-C5FE803E8D9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7654D686-9450-4D15-820B-C5FE803E8D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7654D686-9450-4D15-820B-C5FE803E8D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7654D686-9450-4D15-820B-C5FE803E8D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C1A56FB1-D887-4379-9CA7-705462167317}
+	EndGlobalSection
+EndGlobal
