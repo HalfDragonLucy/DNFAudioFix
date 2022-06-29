@@ -1,72 +1,52 @@
 ﻿using System;
 using System.IO;
+using static DNFAudioFix.ConsoleHelper;
 
 namespace DNFAudioFix
 {
     internal static class Program
     {
-        private static readonly string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        private static readonly string enginePath = $@"{appData}\DNFDUEL\Saved\Config\WindowsNoEditor\Engine.ini";
+        private static readonly string enginePath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\DNFDUEL\Saved\Config\WindowsNoEditor\Engine.ini";
 
         private static void Main()
         {
-            try
+            if (File.Exists(enginePath))
             {
-                if (File.Exists(enginePath))
+                WriteToConsole(ConsoleType.INFORMATION, $"Found Engine.ini at {enginePath}");
+
+                var audio = new Ini
                 {
-                    Console.WriteLine($"Found Engine.ini at: {enginePath}");
-                }
+                    Section = "Audio",
+                    Key = "UnfocusedVolumeMultiplier",
+                    Value = "1.0"
+                };
 
-                var file = File.ReadAllLines(enginePath);
-                for (var i = 0; i < file.Length; i++)
+                if (Ini.Exists(audio, enginePath))
                 {
-                    var line = file[i];
-                    if (line.Contains("UnfocusedVolumeMultiplier"))
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("\n");
-                        Console.WriteLine("Fix Already Applied.");
-
-                        Exit();
-                    }
+                    WriteToConsole(ConsoleType.ERROR, "Key already exists in the Engine.ini");
+                    ExitConsole();
                 }
-
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("\n");
-                Console.WriteLine("Applying Fix..");
-                Console.ResetColor();
-
-                using (var sw = File.AppendText(enginePath))
+                else
                 {
-                    sw.WriteLine("\n");
-                    sw.WriteLine("[Audio]");
-                    sw.WriteLine("UnfocusedVolumeMultiplier = 1.0");
-                }
+                    WriteToConsole(ConsoleType.INFORMATION, "Applying key...");
 
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("\n");
-                Console.WriteLine("Fix Applied!");
-                Console.ResetColor();
+                    Ini.AppendToFile(audio, enginePath);
+
+                    WriteToConsole(ConsoleType.INFORMATION, "Key succesfully applied!");
+                    ExitConsole();
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\n");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                Console.WriteLine(ex.InnerException);
-
-                Exit();
+                WriteToConsole(ConsoleType.ERROR, "Could not find Engine.ini");
+                ExitConsole();
             }
 
-            Exit();
         }
 
-        private static void Exit()
+        private static void ExitConsole()
         {
-            Console.ResetColor();
-            Console.WriteLine("\n");
-            Console.WriteLine("Press any key to exit.");
+            WriteToConsole(ConsoleType.MESSAGE, "Press any key to exit.");
             Console.ReadKey();
             Environment.Exit(0);
         }
